@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333344"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/current_server"
+        android:textFontWeight="50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:textColor="#ffffff"
+        android:layout_height="70dp">
+    </Spinner>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="#000000"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/change_map"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:text="Change Map"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="Restart Server"
+            android:background="#000000"
+            android:visibility="gone"
+            android:textColor="#ffffff"
+            android:id="@+id/restart_server"/>
+
+    </LinearLayout>
+
+    <Button
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refresh"
+        android:id="@+id/refreshBtn"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="#000000"
+        android:scrollbars="vertical" />
+
+</LinearLayout>

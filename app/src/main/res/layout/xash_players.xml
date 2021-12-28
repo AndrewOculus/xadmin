@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#442266"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="player"
+        android:background="#000000"
+        android:textColor="#ffffff"
+        android:id="@+id/text"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/kill"
+            android:background="#000000"
+            android:textColor="#ffffff"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Kill" />
+
+
+        <Button
+            android:id="@+id/kick"
+            android:layout_width="70dp"
+            android:background="#000000"
+            android:textColor="#ffffff"
+            android:layout_height="wrap_content"
+            android:text="Kick" />
+
+        <Button
+            android:id="@+id/ban"
+            android:layout_width="70dp"
+            android:background="#000000"
+            android:textColor="#ffffff"
+            android:layout_height="wrap_content"
+            android:text="Ban Id" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#442266"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <Button
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Map"
+            android:id="@+id/changemap"/>
+
+
+        <EditText
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="de_"
+            android:id="@+id/map" />
+
+
+</LinearLayout>
