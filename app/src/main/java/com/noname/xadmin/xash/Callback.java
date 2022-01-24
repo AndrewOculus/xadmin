@@ -1,6 +1,9 @@
 package com.noname.xadmin.xash;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.noname.xadmin.ui.MessageAdapter;
 import com.noname.xadmin.ui.data.Message;
@@ -9,10 +12,17 @@ public class Callback implements XashCallback {
 
     private MessageAdapter adapter;
     private ArrayAdapter<String> arrayAdapter;
+    private TextView chat;
 
-    public Callback(MessageAdapter adapter, ArrayAdapter<String> arrayAdapter){
+    private Handler mUiHandler;
+
+    public Callback(MessageAdapter adapter, ArrayAdapter<String> arrayAdapter, TextView chat){
         this.adapter = adapter;
         this.arrayAdapter = arrayAdapter;
+        this.chat = chat;
+
+        mUiHandler = new Handler(Looper.getMainLooper());
+
     }
 
     @Override
@@ -39,6 +49,19 @@ public class Callback implements XashCallback {
                 }
 
                 arrayAdapter.notifyDataSetChanged();
+                return;
+            }
+
+            if(spl[0].substring(0, 4).equals("chat")) {
+                final String inputChat = input.substring(8);
+
+                mUiHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        chat.setText(inputChat);
+                    }
+                });
+
                 return;
             }
 

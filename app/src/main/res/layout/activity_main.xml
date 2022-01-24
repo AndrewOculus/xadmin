@@ -46,6 +46,27 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/chat"                    android:textFontWeight="50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
     <Button
         android:visibility="gone"
         android:layout_width="wrap_content"

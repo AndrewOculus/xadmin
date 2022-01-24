@@ -20,7 +20,7 @@ public class Xash implements Runnable {
     private static final String TAG = Xash.class.getName();
 
     private Thread thread;
-    private TimerTask updatePlayersTimer, updateMapListTimer;
+    private TimerTask updatePlayersTimer, updateMapListTimer, updateChatTimer;
 
     private boolean isWork;
     private DatagramSocket datagramSocket;
@@ -79,6 +79,17 @@ public class Xash implements Runnable {
 //        Timer mapSchedule = new Timer();
 //        mapSchedule.schedule(updateMapListTimer, 0 , Settings.MAP_SCHEDULE_TIME);
 //
+
+        updateChatTimer = new TimerTask() {
+            @Override
+            public void run() {
+                requestChat();
+            }
+        };
+
+        Timer chatSchedule = new Timer();
+        chatSchedule.schedule(updateChatTimer, 0 , Settings.CHAT_SCHEDULE_TIME);
+
         updatePlayersTimer = new TimerTask() {
             @Override
             public void run() {
@@ -96,6 +107,7 @@ public class Xash implements Runnable {
             }catch (IOException e){
 //                Log.d(TAG, e.toString());
             }
+
         }
     }
 
@@ -146,6 +158,7 @@ public class Xash implements Runnable {
         try{
             String cm = "ffffffff" + Utils.bytesToHex(String.format("admin_player_statuses %s", deviceId).getBytes());
             Utils.send(cm, datagramSocket);
+            //Utils.send(cm, logDatagramSocket);
         }catch (Exception e){
             Log.d(TAG, e.toString());
         }
@@ -198,6 +211,15 @@ public class Xash implements Runnable {
             String cm = "ffffffff"+Utils.bytesToHex(String.format("admin_restart_server %s", deviceId).getBytes());
             Utils.send(cm, datagramSocket);
             Utils.send(cm, logDatagramSocket);
+        }catch (Exception e){
+            Log.d(TAG, e.toString());
+        }
+    }
+
+    public void requestChat(){
+        try{
+            String cm = "ffffffff"+Utils.bytesToHex(String.format("admin_chat_buffer %s", deviceId).getBytes());
+            Utils.send(cm, datagramSocket);
         }catch (Exception e){
             Log.d(TAG, e.toString());
         }

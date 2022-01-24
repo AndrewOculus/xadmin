@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> mMapListAdapter;
 
     private Button restart, changeMap;
+    private TextView chat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        chat = (TextView) findViewById(R.id.chat);
+
         connect();
     }
 
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         if(xash != null)
             xash.close();
 
-        xash = new Xash(address, port, android_id, new Callback(mAdapter, mMapListAdapter));
+        xash = new Xash(address, port, android_id, new Callback(mAdapter, mMapListAdapter, chat));
     }
 
     @Override
