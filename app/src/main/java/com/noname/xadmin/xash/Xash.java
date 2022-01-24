@@ -234,6 +234,9 @@ public class Xash implements Runnable {
         if(updateMapListTimer != null )
             updateMapListTimer.cancel();
 
+        if(updateChatTimer != null)
+            updateChatTimer.cancel();
+
         if(datagramSocket!= null)
             datagramSocket.close();
     }
