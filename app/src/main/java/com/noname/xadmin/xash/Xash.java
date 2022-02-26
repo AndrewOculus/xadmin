@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.noname.xadmin.Settings;
 
@@ -35,8 +36,13 @@ public class Xash implements Runnable {
     private String deviceId;
     private XashCallback xashCallback;
     private Handler mUiHandler;
+    private TextView connectionStatus;
 
-    public Xash(String address, int port, String deviceId, XashCallback xashCallback){
+    private Timer chatSchedule, playersSchedule;
+
+    private long lastUpdateTime = 0;
+
+    public Xash(String address, int port, String deviceId, XashCallback xashCallback, TextView connectionStatus){
         this.deviceId = deviceId;
         this.address = address;
         this.port = port;
@@ -46,16 +52,17 @@ public class Xash implements Runnable {
 
         this.xashCallback = xashCallback;
 
+        this.connectionStatus = connectionStatus;
+
         mUiHandler = new Handler(Looper.getMainLooper());
 
         thread = new Thread(this);
         thread.start();
     }
 
-    @Override
-    public void run() {
+    boolean isConnected = false;
 
-        boolean isConnected = false;
+    public void connect(){
         do {
             isConnected = createConnetion();
             if(isConnected == false) {
@@ -66,6 +73,14 @@ public class Xash implements Runnable {
                 }
             }
         }while (!isConnected && isWork);
+
+//        lastUpdateTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public void run() {
+
+        connect();
 
         requestMapsList();
 
@@ -80,6 +95,7 @@ public class Xash implements Runnable {
 //        mapSchedule.schedule(updateMapListTimer, 0 , Settings.MAP_SCHEDULE_TIME);
 //
 
+        requestChat();
         updateChatTimer = new TimerTask() {
             @Override
             public void run() {
@@ -87,23 +103,41 @@ public class Xash implements Runnable {
             }
         };
 
-        Timer chatSchedule = new Timer();
+        chatSchedule = new Timer();
         chatSchedule.schedule(updateChatTimer, 0 , Settings.CHAT_SCHEDULE_TIME);
 
+        requestPlayersList();
         updatePlayersTimer = new TimerTask() {
             @Override
             public void run() {
                 requestPlayersList();
+
+                String status = "Offline";
+
+                long delta = (System.currentTimeMillis() - lastUpdateTime);
+                Log.e("ERRR",  delta + " " );
+                if(System.currentTimeMillis() - lastUpdateTime < Settings.NETWORK_CONNECTION_STATUS_OFFLINE){
+                    status = "Online";
+                }
+
+                final String finalStatus = status;
+                mUiHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        connectionStatus.setText(finalStatus);
+                    }
+                });
             }
         };
 
-        Timer playersSchedule = new Timer();
+        playersSchedule = new Timer();
         playersSchedule.schedule(updatePlayersTimer, 0 , Settings.PLAYERS_SCHEDULE_TIME);
 
         while (isWork){
             try{
                 String input = Utils.receiveString(datagramSocket);
                 inputStringParser(input);
+                lastUpdateTime = System.currentTimeMillis();
             }catch (IOException e){
 //                Log.d(TAG, e.toString());
             }
@@ -225,6 +259,16 @@ public class Xash implements Runnable {
         }
     }
 
+    public void executeClientCommand(int id, String command){
+        try{
+            String cm = "ffffffff"+Utils.bytesToHex(String.format("admin_execute_client_command %s %d %s", deviceId, id, command).getBytes());
+            Utils.send(cm, datagramSocket);
+            Utils.send(cm, logDatagramSocket);
+        }catch (Exception e){
+            Log.d(TAG, e.toString());
+        }
+    }
+
     public void close(){
         isWork = false;
 
@@ -236,6 +280,12 @@ public class Xash implements Runnable {
 
         if(updateChatTimer != null)
             updateChatTimer.cancel();
+
+        if(playersSchedule != null)
+        playersSchedule.cancel();
+
+        if(chatSchedule != null)
+            chatSchedule.cancel();
 
         if(datagramSocket!= null)
             datagramSocket.close();

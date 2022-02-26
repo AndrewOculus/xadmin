@@ -88,6 +88,15 @@
         android:layout_weight="1"
         android:text="Ter" />
 
+    <Button
+        android:id="@+id/cmd"
+        android:layout_width="70dp"
+        android:visibility="gone"
+        android:background="#000000"
+        android:textColor="#ffffff"
+        android:layout_height="wrap_content"
+        android:text="Cmd" />
+
 
     <LinearLayout
         android:layout_width="match_parent"

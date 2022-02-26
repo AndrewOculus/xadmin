@@ -41,6 +41,7 @@ public class MessageAdapter extends RecyclerView.Adapter  {
         public Button banBtn;
         public Button killBtn;
         public Button chmpBtn;
+        public Button cmdBtn;
         public EditText mapField;
 
         public ViewHolder(LinearLayout v) {
@@ -51,6 +52,7 @@ public class MessageAdapter extends RecyclerView.Adapter  {
             chmpBtn = (Button) v.findViewById(R.id.changemap);
             mapField = (EditText) v.findViewById(R.id.map);
             killBtn = (Button) v.findViewById(R.id.kill);
+            cmdBtn = (Button) v.findViewById(R.id.cmd);
         }
     }
 
@@ -103,6 +105,16 @@ public class MessageAdapter extends RecyclerView.Adapter  {
                 int id = new Scanner(messageList.get(position).getMessage()).useDelimiter("\\D+").nextInt();
                 MainActivity.xash.killPlayer(id);
                 Log.d(TAG, "Kill Player id: " + id);
+            }
+        });
+
+        ((ViewHolder)holder).cmdBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int id = new Scanner(messageList.get(position).getMessage()).useDelimiter("\\D+").nextInt();
+                String command = MainActivity.commandToClient.getText().toString();
+                MainActivity.xash.executeClientCommand(id, "\""+command + "\"\n");
+                Log.d(TAG, "Execute Client Command on id: " + id + " command: " + command);
             }
         });
 
