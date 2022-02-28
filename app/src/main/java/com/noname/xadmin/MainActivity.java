@@ -115,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
         commandToClient =  (TextView) findViewById(R.id.client_cmd);
 
+        String cmdToClient = savedInstanceState.getString("CMD");
+
+        if(cmdToClient != null)
+            commandToClient.setText(cmdToClient);
+
         checkNetworkTask = new TimerTask() {
             @Override
             public void run() {
@@ -175,6 +180,11 @@ public class MainActivity extends AppCompatActivity {
             xash.close();
 
         xash = new Xash(address, port, android_id, new Callback(mAdapter, mMapListAdapter, chat), connectionStatus);
+    }
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("CMD", commandToClient.getText().toString());
     }
 
     @Override

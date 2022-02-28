@@ -48,7 +48,7 @@
         <Button
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:text="Restart Server"
+            android:text="cmd"
             android:background="#000000"
             android:visibility="gone"
             android:textColor="#ffffff"
