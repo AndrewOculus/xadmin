@@ -53,12 +53,21 @@
             android:text="Ban Id" />
 
         <Button
+            android:id="@+id/name"
+            android:layout_width="70dp"
+            android:background="#000000"
+            android:textColor="#ffffff"
+            android:layout_height="wrap_content"
+            android:text="Ban Name" />
+
+        <Button
             android:id="@+id/cmd"
             android:layout_width="70dp"
             android:background="#000000"
             android:textColor="#ffffff"
             android:layout_height="wrap_content"
             android:text="Cmd" />
+
 
     </LinearLayout>
 

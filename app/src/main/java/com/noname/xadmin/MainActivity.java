@@ -114,12 +114,7 @@ public class MainActivity extends AppCompatActivity {
         connectionStatus = (TextView) findViewById(R.id.connection_status);
 
         commandToClient =  (TextView) findViewById(R.id.client_cmd);
-
-        String cmdToClient = savedInstanceState.getString("CMD");
-
-        if(cmdToClient != null)
-            commandToClient.setText(cmdToClient);
-
+        
         checkNetworkTask = new TimerTask() {
             @Override
             public void run() {

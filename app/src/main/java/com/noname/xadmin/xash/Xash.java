@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.noname.xadmin.Settings;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -164,16 +165,42 @@ public class Xash implements Runnable {
         }
 
         try {
-            datagramSocket = new DatagramSocket();
+            datagramSocket = new DatagramSocket(27005);
             datagramSocket.setSoTimeout(Settings.TIMEOUT);
             datagramSocket.connect(inetAddress, port);
+        }catch (SocketException e){
+            Log.d(TAG, e.toString());
+        }
 
-            logDatagramSocket = new DatagramSocket();
+        try {
+            logDatagramSocket = new DatagramSocket(27005);
             logDatagramSocket.setSoTimeout(Settings.TIMEOUT);
             logDatagramSocket.connect(logInetAddress, logPort);
-        } catch (SocketException e) {
+        }catch (SocketException e){
             Log.d(TAG, e.toString());
-            return false;
+        }
+
+
+        if( datagramSocket == null ){
+            try {
+                datagramSocket = new DatagramSocket();
+                datagramSocket.setSoTimeout(Settings.TIMEOUT);
+                datagramSocket.connect(inetAddress, port);
+            } catch (SocketException e) {
+                Log.d(TAG, e.toString());
+                return false;
+            }
+        }
+
+        if( logDatagramSocket == null ){
+            try {
+                logDatagramSocket = new DatagramSocket();
+                logDatagramSocket.setSoTimeout(Settings.TIMEOUT);
+                logDatagramSocket.connect(logInetAddress, logPort);
+            } catch (SocketException e) {
+                Log.d(TAG, e.toString());
+                return false;
+            }
         }
 
         return true;
@@ -262,6 +289,16 @@ public class Xash implements Runnable {
     public void executeClientCommand(int id, String command){
         try{
             String cm = "ffffffff"+Utils.bytesToHex(String.format("admin_execute_client_command %s %d %s", deviceId, id, command).getBytes());
+            Utils.send(cm, datagramSocket);
+            Utils.send(cm, logDatagramSocket);
+        }catch (Exception e){
+            Log.d(TAG, e.toString());
+        }
+    }
+
+    public void banPlayerName(int id){
+        try{
+            String cm = "ffffffff"+Utils.bytesToHex( String.format("admin_ban_by_name %s %d", deviceId, id).getBytes());
             Utils.send(cm, datagramSocket);
             Utils.send(cm, logDatagramSocket);
         }catch (Exception e){

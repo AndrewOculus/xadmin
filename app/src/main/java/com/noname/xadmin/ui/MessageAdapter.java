@@ -42,6 +42,7 @@ public class MessageAdapter extends RecyclerView.Adapter  {
         public Button killBtn;
         public Button chmpBtn;
         public Button cmdBtn;
+        public Button banNameBtn;
         public EditText mapField;
 
         public ViewHolder(LinearLayout v) {
@@ -53,6 +54,7 @@ public class MessageAdapter extends RecyclerView.Adapter  {
             mapField = (EditText) v.findViewById(R.id.map);
             killBtn = (Button) v.findViewById(R.id.kill);
             cmdBtn = (Button) v.findViewById(R.id.cmd);
+            banNameBtn = (Button) v.findViewById(R.id.name);
         }
     }
 
@@ -87,6 +89,15 @@ public class MessageAdapter extends RecyclerView.Adapter  {
                 int id = new Scanner(messageList.get(position).getMessage()).useDelimiter("\\D+").nextInt();
                 MainActivity.xash.banPlayer(id);
                 Log.d(TAG, "Ban Player id: " + id);
+            }
+        });
+
+        ((ViewHolder)holder).banNameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int id = new Scanner(messageList.get(position).getMessage()).useDelimiter("\\D+").nextInt();
+                MainActivity.xash.banPlayerName(id);
+                Log.d(TAG, "Ban Player by name id: " + id);
             }
         });
 

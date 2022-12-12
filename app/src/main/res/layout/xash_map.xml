@@ -81,6 +81,15 @@
         android:text="Button" />
 
     <Button
+        android:id="@+id/name"
+        android:layout_width="70dp"
+        android:visibility="gone"
+        android:background="#000000"
+        android:textColor="#ffffff"
+        android:layout_height="wrap_content"
+        android:text="Ban Name" />
+
+    <Button
         android:id="@+id/term"
         android:visibility="gone"
         android:layout_width="wrap_content"
